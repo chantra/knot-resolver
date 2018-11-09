@@ -22,6 +22,7 @@
 #include "lib/defines.h"
 #include "lib/generic/array.h"
 #include "lib/generic/map.h"
+#include "lib/tls.h"
 
 #define MAX_TLS_PADDING KR_EDNS_PAYLOAD
 #define TLS_MAX_UNCORK_RETRIES 100
@@ -77,13 +78,6 @@ typedef enum tls_client_hs_state {
 } tls_hs_state_t;
 
 typedef int (*tls_handshake_cb) (struct session *session, int status);
-
-typedef enum tls_client_param {
-	TLS_CLIENT_PARAM_NONE = 0,
-	TLS_CLIENT_PARAM_PIN,
-	TLS_CLIENT_PARAM_HOSTNAME,
-	TLS_CLIENT_PARAM_CA,
-} tls_client_param_t;
 
 struct tls_common_ctx {
 	bool client_side;
@@ -167,20 +161,6 @@ int tls_set_hs_state(struct tls_common_ctx *ctx, tls_hs_state_t state);
 struct tls_client_paramlist_entry *tls_client_try_upgrade(map_t *tls_client_paramlist,
 			  const struct sockaddr *addr);
 
-/*! Clear (remove) TLS parameters for given address. */
-int tls_client_params_clear(map_t *tls_client_paramlist, const char *addr, uint16_t port);
-
-/*! Set TLS authentication parameters for given address.
- * Note: hostnames must be imported before ca files,
- *       otherwise ca files will not be imported at all.
- */
-int tls_client_params_set(map_t *tls_client_paramlist,
-			  const char *addr, uint16_t port,
-			  const char *param, tls_client_param_t param_type);
-
-/*! Free TLS authentication parameters. */
-int tls_client_params_free(map_t *tls_client_paramlist);
-
 /*! Allocate new client TLS context */
 struct tls_client_ctx_t *tls_client_ctx_new(struct tls_client_paramlist_entry *entry,
 					    struct worker_ctx *worker);
@@ -220,4 +200,3 @@ void tls_session_ticket_enable(struct tls_session_ticket_ctx *ctx, gnutls_sessio
 
 /*! Free all resources of the session ticket context.  NULL is accepted as well. */
 void tls_session_ticket_ctx_destroy(struct tls_session_ticket_ctx *ctx);
-

@@ -23,6 +23,7 @@ libkres_SOURCES := \
 	lib/nsrep.c \
 	lib/resolve.c \
 	lib/rplan.c \
+	lib/tls.c \
 	lib/utils.c \
 	lib/zonecut.c
 
@@ -48,6 +49,7 @@ libkres_HEADERS := \
 	lib/nsrep.h \
 	lib/resolve.h \
 	lib/rplan.h \
+	lib/tls.h \
 	lib/utils.h \
 	lib/zonecut.h
 

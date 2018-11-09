@@ -22,6 +22,7 @@
 
 #include "lib/cache/api.h"
 #include "lib/cache/cdb_api.h"
+#include "lib/tls.h"
 #include "lib/utils.h"
 #include "daemon/bindings.h"
 #include "daemon/worker.h"
@@ -244,7 +245,7 @@ static int net_listen(lua_State *L)
 		tls = table_get_flag(L, 3, "tls", tls);
 	}
 	int flags = tls ? (NET_TCP|NET_TLS) : (NET_TCP|NET_UDP);
-	
+
 	/* Now focus on the first argument. */
 	lua_pop(L, n - 1);
 	int res = net_listen_addrs(L, port, flags);

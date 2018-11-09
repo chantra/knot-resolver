@@ -16,6 +16,7 @@ ifeq ($(HAS_lua),yes)
 modules_TARGETS += bogus_log \
 		   etcd \
                    ta_sentinel \
+                   dot \
                    graphite \
                    policy \
                    view \
